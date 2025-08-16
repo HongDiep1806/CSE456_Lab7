@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" , xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student-List</title>
+</head>
+<body>
+<h1>Student-list</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Student Id</th>
+        <th>Name</th>
+        <th>Year of birth</th>
+        <th>Gpa</th>
+        <th>Major</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <form th:action="@{/students}" method="get">
+        <input type="text" name="keyword" id="keyword" placeholder="Search by name">
+        <button type="submit">Search</button>
+    </form>
+    <p>
+        <button><a th:href="@{'/student/new'}">Create Student</a></button>
+    </p>
+    <tr th:each="s : ${studentList}">
+        <td th:text="${s.getId()}"></td>
+        <td th:text="${s.getName()}"></td>
+        <td th:text="${s.getYob()}"></td>
+        <td th:text="${s.getGpa()}"></td>
+        <td th:text="${s.major.getName()}"></td>
+        <td>
+            <a th:href="@{'/student/edit/'+${s.id}}">Edit</a>
+            <a th:href="@{/student/delete/{id}(id=${s.id})}"
+               th:attr="data-name=${s.name},data-id=${s.id}"
+               onclick="return confirm('Delete ' + this.dataset.name + ' (ID: ' + this.dataset.id + ')?');">
+                Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
